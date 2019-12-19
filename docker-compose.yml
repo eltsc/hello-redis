@@ -12,7 +12,7 @@ services:
   flask:
     depends_on:
         - redis
-    build: ./web
+    build: https://github.com/eltsc/hello-redis.git
     container_name: flask
     ports:
       - 8080:8080    

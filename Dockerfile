@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 RUN pip3 install Flask
 RUN pip3 install redis
 
-COPY . .
+COPY ./web .
 
 EXPOSE 8080
 
