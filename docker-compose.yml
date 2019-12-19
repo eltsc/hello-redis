@@ -13,7 +13,7 @@ services:
   flask:
     depends_on:
         - redis
-    build: ./app
+    build: ./web
     container_name: flask
     ports:
       - 8080:8080    
