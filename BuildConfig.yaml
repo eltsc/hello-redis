@@ -1,0 +1,26 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: flask-redis
+  namespace: hello-openshift-elad
+  labels:
+    app: redis-py
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'flask-redis'
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/eltsc/hello-redis.git'
+    contextDir: /
+  triggers:
+    - type: ConfigChange
+  runPolicy: Serial
