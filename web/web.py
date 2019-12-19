@@ -4,7 +4,7 @@ import random
 import string
 
 app = Flask(__name__)
-client = redis.Redis(host = '127.0.0.1' , port = 6379)
+client = redis.Redis(host = 'redis' , port = 6379)
 
 client.set('name', 'elad')
 client.set('name1', 'shay')
