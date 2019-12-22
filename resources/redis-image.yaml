@@ -6,4 +6,4 @@ spec:
     type: image
     params:
         - name: url
-          value: docker.io/redis
+          value: registry.hub.docker.com/library/redis
