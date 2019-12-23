@@ -2,32 +2,40 @@ apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: source-to-image
+  namespace: hello-openshift-elad
 spec:
   inputs:
     resources:
       - name: git-py
         type: git
     params:
-      - name: pathToContext
-        description: The path to the build context, used by Kaniko - within the workspace
-        default: .
       - name: pathToDockerFile
-        description: The path to the dockerfile to build (relative to the context)
-        default: Dockerfile
-      - name: imageUrl
-        description: Url of image repository
-        default: image-registry.openshift-image-registry.svc:5000/hello-openshift-elad
-      - name: imageTag
-        description: Tag to apply to the built image
-        default: "latest"
+        default: /workspace/git-py/Dockerfile
+      - name: pathToContext
+        default: /workspace/git-py
+  outputs:
+    resources:
+      - name: git-py-registry-image
+        type: image
   steps:
-    - name: build-and-push
+    - name: build
       image: gcr.io/kaniko-project/executor
+      securityContext:
+        runAsUser: 0
       command:
-        - /kaniko/executor
-      args:
-        - --dockerfile=${inputs.params.pathToDockerFile}
-        - --destination=${inputs.params.imageUrl}:${inputs.params.imageTag}
-        - --context=/workspace/git-source/${inputs.params.pathToContext}
-
-
+        - sh
+        - "-c"
+        - " 
+            /kaniko/executor \
+            --dockerfile=${inputs.params.pathToDockerFile} \
+            --destination=${outputs.resources.git-py-registry-image.url} \
+            --context=${inputs.params.pathToContext}  \
+            --skip-tls-verify 
+          "
+      volumeMounts:
+        - name: docker-config
+          mountPath: /kaniko/.docker
+  volumes:
+    - name: docker-config
+      configMap: 
+        name: docker-config
