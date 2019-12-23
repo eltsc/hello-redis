@@ -8,11 +8,11 @@ spec:
     resources:
       - name: git-py
         type: git
-    params:
-      - name: pathToDockerFile
-        default: /workspace/git-py/Dockerfile
-      - name: pathToContext
-        default: /workspace/git-py
+    # params:
+    #   - name: pathToDockerFile
+    #     default: /workspace/git-py/Dockerfile
+    #   - name: pathToContext
+    #     default: /workspace/git-py
   outputs:
     resources:
       - name: git-py-registry-image
@@ -27,9 +27,9 @@ spec:
         - "-c"
         - " 
             /kaniko/executor \
-            --dockerfile=${inputs.params.pathToDockerFile} \
+            --dockerfile=/workspace/git-py/Dockerfile \
             --destination=${outputs.resources.git-py-registry-image.url} \
-            --context=${inputs.params.pathToContext}  \
+            --context=/workspace/git-py  \
             --skip-tls-verify 
           "
       volumeMounts:
