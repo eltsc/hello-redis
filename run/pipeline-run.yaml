@@ -9,9 +9,13 @@ spec:
     - name: git-py
       resourceRef:
         name: git-py
-  params:
-    - name: imageUrl
-      value: image-registry.openshift-image-registry.svc:5000/hello-openshift-elad/pipeline-redis-py
-    - name: imageTag
-      value: "1.0"
-  # serviceAccount: pipeline-account
+    - name: git-py-registry-image
+      resourceRef:
+        name: git-py-registry-image
+          
+  # params:
+  #   - name: imageUrl
+  #     value: image-registry.openshift-image-registry.svc:5000/hello-openshift-elad/pipeline-redis-py
+  #   - name: imageTag
+  #     value: "1.0"
+  # # serviceAccount: pipeline-account
