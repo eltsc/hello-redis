@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: build-deploy-pipelinerun
+spec:
+  pipelineRef:
+    name: build-and-deploy
+  resources:
+  - name: py-flask-repo
+    resourceRef:
+      name: py-flask-repo
+  - name: py-flask-image
+    resourceRef:
+      name: py-flask-image
+  params:
+  - name: deployment-name
+    value: flask-redis-cicd

@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: source-to-image
+  namespace: hello-openshift-elad
+spec:
+  inputs:
+    resources:
+      - name: git-py
+        type: git
+    # params:
+    #   - name: pathToDockerFile
+    #     default: /workspace/git-py/Dockerfile
+    #   - name: pathToContext
+    #     default: /workspace/git-py
+  outputs:
+    resources:
+      - name: git-py-registry-image
+        type: image
+  steps:
+    - name: build
+      image: gcr.io/kaniko-project/executor
+      securityContext:
+        runAsUser: 0
+      command:
+        - sh
+        - "-c"
+        - " 
+            /kaniko/executor \
+            --dockerfile=/workspace/git-py/Dockerfile \
+            --destination=${outputs.resources.git-py-registry-image.url} \
+            --context=/workspace/git-py  \
+            --skip-tls-verify 
+          "
+      volumeMounts:
+        - name: docker-config
+          mountPath: /kaniko/.docker
+  volumes:
+    - name: docker-config
+      configMap: 
+        name: docker-config

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: master
+    app.openshift.io/vcs-uri: https://github.com/eltsc/hello-redis.git
+  labels:
+    app: redis-py
+  name: redis-py
+  namespace: hello-openshift-elad
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: redis-py
+    deploymentconfig: redis-py
+  sessionAffinity: None
+  type: ClusterIP
