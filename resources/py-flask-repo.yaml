@@ -1,11 +1,9 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
-    name: git-py
+    name: py-flask-repo
 spec:
     type: git
     params:
-        - name: revision
-          value: master
         - name: url
           value: https://github.com/eltsc/hello-redis.git
