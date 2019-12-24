@@ -14,4 +14,4 @@ spec:
       name: py-flask-image
   params:
   - name: deployment-name
-    value: flask-redis
+    value: flask-redis-cicd

@@ -25,7 +25,7 @@ spec:
     args:
     - |-
       echo Applying manifests in $(inputs.params.manifest-dir) directory
-      oc apply -f Deployment.yaml
+      oc apply -f DeploymentCICD.yaml
       echo -----------------------------------
   - name: patch
     image: quay.io/openshift/origin-cli:latest
